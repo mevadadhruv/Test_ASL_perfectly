@@ -1,0 +1,216 @@
+package routines;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Random;
+import java.util.UUID;
+
+public class DemoRoutine {
+    
+    /**
+     * helloExample : return "hello" + message.
+     * {talendTypes} String
+     * {Category} User Defined
+     * {param} string("world") input: The string to be included.
+     * {example} helloExample("world") # hello world!.
+     */
+	public static String helloExample(String message) {
+		if (message == null || message.equals("")) {
+			message = "World";
+		}
+		return "Hello " + message + "!";
+	}
+	
+	/**
+     * dateCompareExample : return maxDate from two dates.
+     * {maxDate} String
+     * {Category} User Defined
+     * {example} dateCompareExample (02-OCT-2023,03-OCT-2023) # 03-OCT-2023
+     */
+	
+	public static String dateCompareExample(Date d1,Date d2) {
+		String formattedDateString = new String();
+		try {
+			 
+			String s1 = TalendDate.TO_CHAR(d1,"YYYYMMDD-HHMISS");
+			 
+			String s2 = TalendDate.TO_CHAR(d2,"YYYYMMDD-HHMISS");
+			
+			 
+			
+	        if(d1 != null && d2 != null)
+	        {
+	        	if(d1.after(d2) == true)
+		        {
+		        	formattedDateString = s1;
+		        }
+		        else
+		        {
+		        	formattedDateString = s2;
+		        }
+	        }
+	        else
+	        {
+	        	if(d1 == null)
+		        {
+		        	formattedDateString = s2;
+		        }
+		        else
+		        {
+		        	formattedDateString = s1;
+		        }
+	        }
+	        
+		}catch(Exception e) {
+			System.out.println("error in formatting date:- "+e);
+		}
+		return formattedDateString;
+	}
+	
+	/**
+     * dateMysqlCompareExample : return maxDate from two dates.
+     * {maxDate} String
+     * {Category} User Defined
+     * {example} dateMysqlCompareExample (02-OCT-2023,03-OCT-2023) # 03-OCT-2023
+     */
+	
+	
+	public static String dateMysqlCompareExample(Date d1,Date d2) {
+		String formattedDateString = new String();
+		try {
+			String s1 = TalendDate.formatDate("yyyyMMddHHmmss",d1);
+			System.out.println("d1:- "+d1);
+			System.out.println("s1:- "+s1);
+			String s2 = TalendDate.formatDate("yyyyMMddHHmmss",d2);
+			System.out.println("d2:- "+d2);
+			System.out.println("s2:- "+s2);
+			
+	        if(d1 != null && d2 != null)
+	        {
+	        	if(d1.after(d2) == true)
+		        {
+		        	formattedDateString = s1;
+		        }
+		        else
+		        {
+		        	formattedDateString = s2;
+		        }
+	        }
+	        else
+	        {
+	        	if(d1 == null)
+		        {
+		        	formattedDateString = s2;
+		        }
+		        else
+		        {
+		        	formattedDateString = s1;
+		        }
+	        }
+	        System.out.println("formattedDateString:- "+formattedDateString);
+		}catch(Exception e) {
+			System.out.println("error in formatting date:- "+e);
+		}
+		return formattedDateString;
+	}
+	
+	
+	/**
+     * removeDashFromString : return String which remove - from string.
+     * {maxDate} String
+     * {Category} User Defined
+     * {example} F-AWSE to FAWSE
+     */
+	
+	public static String removeDashFromString(String s) {
+		String check = s.replace("-", "");
+		String check1 = check.replace("_", "");		
+		return check1;
+	} 
+	
+    /**
+     * getZipCode : return random zip code.
+     * {talendTypes} String
+     * {Category} User Defined
+     * {example} getZipCode(4) # 5782
+     */
+	public static String getZipCode(int len) {
+		// get a good zip code length
+		int zipLen = 0;
+		if (len < 1 || len > 5) {
+			zipLen  = 4;
+		} else {
+			zipLen = len;
+		}
+		// create the zip code
+		StringBuilder sb = new StringBuilder(zipLen);
+		Random random = new Random();
+		int min = 0;
+		int max = 9;
+		for (int i = 0; i < zipLen; i++) {
+			sb.append(random.nextInt(max - min) + min);			
+		}
+		return sb.toString();
+	}	
+    
+    /**
+	 * getRandomDay : Return a random open day
+	 * {talendTypes} String
+	 * {Category} User Defined
+	 * {example} getRandomDay() # Monday
+	 */
+	public static String getRandomOpenDay() {
+		String day[] = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
+		int i = ((Long) Math.round(Math.random() * (4))).intValue();
+		return day[i];
+	}
+	
+	/**
+	 * calculatePercentage : Get the percentage for a value from a reference
+	 * {talendTypes} Double
+	 * {Category} User Defined 
+     * {param} Double (value, reference) input: the value and reference to be used.
+	 * {example} addPercent(105.0, 140.0) # returns 75.0
+	 */
+	public static Double calculatePercentage(Double value, Double reference) {
+		return value * 100.0 / reference;
+	}
+	
+	/**
+	 * getFileFetchUrl : Return the file fetch URL
+	 * {talendTypes} String
+	 * {Category} User Defined
+	 */
+	public static String getFileFetchUrl() {
+		return "http://talendforge.org/file_fetch.txt";
+	}
+	
+	/**
+     * getRandomUUID: return random UUID.
+     * {talendTypes} String
+     * {Category} User Defined
+     * {example} getRandomUUID() # f901ed16-3910-4160-a69a-082bee15ff78
+     */
+	public static String getRandomUUID() {
+		return "" + UUID.randomUUID();
+	}
+	
+	/**
+     * padString: pad a 'input' string to length 'len' with given 'paddingChar'.
+     * {talendTypes} String
+     * {Category} User Defined
+     * {example} padString("Hello", 7, '#') # "Hello##"
+     */
+	public static String padString(String input, int len, char paddingChar) {
+		if (null == input || len == 0) {
+            return null;
+        }
+		if (len < input.length()) {
+            return input.substring(0,len);
+        }
+        char[] target = new char[len - input.length()];
+        Arrays.fill(target, paddingChar);
+        return input + new String(target);
+	}
+
+}
